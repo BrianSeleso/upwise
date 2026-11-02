@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-ink text-mist font-sans antialiased;
+    background-image: radial-gradient(60% 60% at 20% 10%, rgba(46, 107, 255, 0.35) 0%, transparent 60%),
+      radial-gradient(50% 50% at 90% 90%, rgba(182, 255, 60, 0.18) 0%, transparent 60%);
+    background-attachment: fixed;
+  }
+  html:not(.dark) body {
+    background: #f4f6ff;
+    color: #0a1128;
+    background-image: none;
+  }
+  select,
+  option,
+  input {
+    color-scheme: dark;
+  }
+  html:not(.dark) select,
+  html:not(.dark) option,
+  html:not(.dark) input {
+    color-scheme: light;
+  }
+}
+
+@layer components {
+  /* ---------- Primary button ---------- */
+  .btn {
+    @apply relative inline-flex items-center justify-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-semibold text-white
+           shadow-lg shadow-volt/25
+           transition-all duration-200
+           hover:brightness-110 hover:shadow-glow
+           active:scale-[.98]
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime/70 focus-visible:ring-offset-2 focus-visible:ring-offset-ink
+           disabled:opacity-50 disabled:pointer-events-none;
+    background-image: linear-gradient(135deg, #2e6bff 0%, #7a5cff 100%);
+  }
+
+  /* ---------- Lime accent button ---------- */
+  .btn-lime {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-xl px-3.5 py-2 text-sm font-bold text-ink
+           shadow-lg shadow-lime/25
+           transition-all duration-200
+           hover:brightness-105 hover:shadow-glow-lime
+           active:scale-[.98]
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime focus-visible:ring-offset-2 focus-visible:ring-offset-ink
+           disabled:opacity-50 disabled:pointer-events-none;
+    background-image: linear-gradient(135deg, #b6ff3c 0%, #6ee7b7 100%);
+  }
+
+  /* ---------- Ghost button ---------- */
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-1.5 rounded-xl border border-line/80 px-3.5 py-2 text-sm font-medium text-mist
+           bg-white/[0.02] backdrop-blur
+           transition-all duration-200
+           hover:border-lime/40 hover:bg-white/[0.06] hover:text-white
+           active:scale-[.98]
+           focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime/60 focus-visible:ring-offset-2 focus-visible:ring-offset-ink
+           disabled:opacity-50 disabled:pointer-events-none;
+  }
+
+  /* ---------- Input (fixes hidden text) ---------- */
+  .field {
+    @apply w-full rounded-xl border border-line/80 bg-ink/60 px-3.5 py-2.5 text-sm text-mist
+           placeholder:text-dim/70
+           backdrop-blur-sm
+           transition-all duration-200
+           hover:border-line
+           focus:border-lime/60 focus:bg-ink/80 focus:outline-none focus:ring-2 focus:ring-lime/25
+           disabled:opacity-60;
+    color: #f4f6ff;
+    -webkit-text-fill-color: #f4f6ff;
+  }
+  .field::placeholder {
+    color: #8e9cc4b3;
+  }
+  .field:-webkit-autofill,
+  .field:-webkit-autofill:hover,
+  .field:-webkit-autofill:focus {
+    -webkit-text-fill-color: #f4f6ff;
+    -webkit-box-shadow: 0 0 0 1000px #0a1128 inset;
+    transition: background-color 9999s ease-out;
+  }
+  html:not(.dark) .field {
+    @apply bg-white border-line/40 text-ink;
+    color: #0a1128;
+    -webkit-text-fill-color: #0a1128;
+  }
+  html:not(.dark) .field::placeholder {
+    color: #8e9cc4;
+  }
+
+  /* ---------- Card ---------- */
+  .card {
+    @apply relative overflow-hidden rounded-2xl border border-line/70 bg-panel/60 p-4
+           backdrop-blur-md
+           transition-all duration-300
+           hover:border-lime/25;
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* ---------- Glass surface ---------- */
+  .glass {
+    @apply rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl;
+  }
+
+  /* ---------- Gradient text ---------- */
+  .text-grad {
+    @apply bg-gradient-to-r from-white via-limeSoft to-white bg-clip-text text-transparent;
+  }
+  .text-grad-volt {
+    background-image: linear-gradient(90deg, #2e6bff 0%, #7a5cff 50%, #b6ff3c 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* ---------- Utility: gradient bg used in JSX ---------- */
+  .bg-grad-volt {
+    background-image: linear-gradient(135deg, #2e6bff 0%, #7a5cff 100%);
+  }
+  .bg-grad-lime {
+    background-image: linear-gradient(135deg, #b6ff3c 0%, #6ee7b7 100%);
+  }
+}

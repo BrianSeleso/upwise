@@ -1,0 +1,31 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function owner(uid) { return request.auth != null && request.auth.uid == uid; }
+    match /users/{uid} {
+      allow read: if owner(uid);
+      allow create, update: if owner(uid) && request.resource.data.keys().hasOnly(
+        ['displayName','email','timezone','weekStartsOn','dailyStartTime','dailyEndTime','createdAt','updatedAt']);
+      allow delete: if false;
+
+      match /tasks/{id} {
+        allow read, delete: if owner(uid);
+        allow create, update: if owner(uid)
+          && request.resource.data.title is string && request.resource.data.title.size() > 0
+          && request.resource.data.title.size() <= 200
+          && request.resource.data.status in ['todo','in_progress','completed','cancelled'];
+      }
+      match /timeEntries/{id} {
+        allow read, delete: if owner(uid);
+        allow create, update: if owner(uid)
+          && request.resource.data.durationSeconds is number
+          && request.resource.data.durationSeconds >= 0
+          && request.resource.data.entryType in ['timer','manual'];
+      }
+      match /{coll}/{id} {
+        allow read, write: if owner(uid)
+          && coll in ['goals','weeks','schedules','dailyReviews','weeklyReviews','categories','state'];
+      }
+    }
+  }
+}
